@@ -1,0 +1,39 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  jta:
+    enabled: true
+    atomikos:
+      datasource:
+        # ORACLE DB Config
+        oracle:
+          unique-resource-name: xaForLegacyDataSource
+          xa-data-source-class-name: oracle.jdbc.xa.client.OracleXADataSource
+          xa-properties:
+            url: jdbc:oracle:thin:@localhost:1521:xe
+            user: gk51
+            password: 1234
+
+        # H2 DB Config
+        h2:
+          unique-resource-name: xaForUserbenefitDataSource
+          xa-data-source-class-name: org.h2.jdbcx.JdbcDataSource
+          xa-properties:
+            url: jdbc:h2:mem:test
+            user: admin
+            password: admin
+      properties:
+        enable-logging: true
+  jpa:
+    database: oracle
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+      use-new-id-generator-mappings: false
+    properties:
+      hibernate:
+        format_sql: true
