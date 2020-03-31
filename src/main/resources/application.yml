@@ -48,3 +48,4 @@ logging:
   level:
     root: info
     com.atomikos: debug
+    org.hibernate: debug

@@ -46,15 +46,26 @@ public class OracleDataSourceConfig {
 
     @Bean(name = "oracleDataSource")
     public DataSource oracleDataSource() throws SQLException {
-        final OracleXADataSource oracleXADataSource = new OracleXADataSource();
-        oracleXADataSource.setUser(user);
-        oracleXADataSource.setPassword(password);
-        oracleXADataSource.setURL(url);
+//        final OracleXADataSource oracleXADataSource = new OracleXADataSource();
+//        oracleXADataSource.setUser(user);
+//        oracleXADataSource.setPassword(password);
+//        oracleXADataSource.setURL(url);
+
+//        AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
+//        dataSource.setUniqueResourceName(uniqueResourceName);
+//        dataSource.setXaDataSourceClassName(dataSourceClassName);
+//        dataSource.setXaDataSource(oracleXADataSource);
+
+        Properties properties = new Properties();
+        properties.setProperty("URL", url);
+        properties.setProperty("user", user);
+        properties.setProperty("password", password);
 
         AtomikosDataSourceBean dataSource = new AtomikosDataSourceBean();
         dataSource.setUniqueResourceName(uniqueResourceName);
         dataSource.setXaDataSourceClassName(dataSourceClassName);
-        dataSource.setXaDataSource(oracleXADataSource);
+        dataSource.setXaProperties(properties);
+
         return dataSource;
     }
 
