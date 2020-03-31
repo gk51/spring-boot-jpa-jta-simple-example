@@ -11,7 +11,7 @@ spring:
       datasource:
         # ORACLE DB Config
         oracle:
-          unique-resource-name: xaForLegacyDataSource
+          unique-resource-name: oracleDataSource
           xa-data-source-class-name: oracle.jdbc.xa.client.OracleXADataSource
           xa-properties:
             url: jdbc:oracle:thin:@localhost:1521:xe
@@ -20,20 +20,31 @@ spring:
 
         # H2 DB Config
         h2:
-          unique-resource-name: xaForUserbenefitDataSource
+          unique-resource-name: h2DataSource
           xa-data-source-class-name: org.h2.jdbcx.JdbcDataSource
           xa-properties:
             url: jdbc:h2:mem:test
             user: admin
             password: admin
+
+        # MYSQL DB Config
+        mysql:
+          unique-resource-name: mysqlDataSource
+          xa-data-source-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+          xa-properties:
+            url: jdbc:mysql://localhost:3306/jtatest?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+            user: gk51
+            password: 1234
       properties:
         enable-logging: true
+        max-timeout: 600000
+        default-jta-timeout: 10000
   jpa:
-    database: oracle
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
       use-new-id-generator-mappings: false
-    properties:
-      hibernate:
-        format_sql: true
+logging:
+  level:
+    root: info
+    com.atomikos: debug

@@ -23,11 +23,11 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaAuditing
 @EnableJpaRepositories(
-        basePackages = {"com.drimsys.example.domain.oracle"} ,
+        basePackages = {"com.drimsys.example.db.oracle"} ,
         entityManagerFactoryRef = "oracleEntityManagerFactory" ,
         transactionManagerRef = "multiTxManager"
 )
-@EntityScan("com.drimsys.example.domain.oracle")
+@EntityScan("com.drimsys.example.db.oracle")
 public class OracleDataSourceConfig {
     @Value("${spring.jta.atomikos.datasource.oracle.unique-resource-name}")
     private String uniqueResourceName;
@@ -73,7 +73,7 @@ public class OracleDataSourceConfig {
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
         entityManager.setDataSource(oracleDataSource());
         entityManager.setJpaVendorAdapter(hibernateJpaVendorAdapter);
-        entityManager.setPackagesToScan("com.drimsys.example.domain.oracle");
+        entityManager.setPackagesToScan("com.drimsys.example.db.oracle");
         entityManager.setPersistenceUnitName("oracle_write_unit");
         entityManager.setJpaProperties(properties);
         return entityManager;

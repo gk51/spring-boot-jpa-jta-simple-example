@@ -1,5 +1,6 @@
-package com.drimsys.example.domain.h2;
+package com.drimsys.example.db.h2;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,4 +26,9 @@ public class Customer {
     private int age;
 
     protected Customer(){}
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this, this.getClass());
+    }
 }

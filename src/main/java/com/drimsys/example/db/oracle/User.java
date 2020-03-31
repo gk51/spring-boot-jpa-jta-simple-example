@@ -1,5 +1,6 @@
-package com.drimsys.example.domain.oracle;
+package com.drimsys.example.db.oracle;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,4 +23,9 @@ public class User {
     private int age;
 
     protected User(){}
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this, this.getClass());
+    }
 }

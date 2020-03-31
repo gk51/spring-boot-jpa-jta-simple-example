@@ -17,36 +17,36 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Primary
+//@Primary
 @Configuration
 @DependsOn("multiTxManager")
 @EnableTransactionManagement
 @EnableJpaAuditing
 @EnableJpaRepositories(
-        basePackages = {"com.drimsys.example.db.h2"} ,
-        entityManagerFactoryRef = "h2EntityManagerFactory" ,
+        basePackages = {"com.drimsys.example.db.mysql"} ,
+        entityManagerFactoryRef = "mysqlEntityManagerFactory" ,
         transactionManagerRef = "multiTxManager"
 )
-@EntityScan("com.drimsys.example.db.h2")
-public class H2DataSourceConfig {
-    @Value("${spring.jta.atomikos.datasource.h2.unique-resource-name}")
+@EntityScan("com.drimsys.example.db.mysql")
+public class MysqlDataSourceConfig {
+    @Value("${spring.jta.atomikos.datasource.mysql.unique-resource-name}")
     private String uniqueResourceName;
 
-    @Value("${spring.jta.atomikos.datasource.h2.xa-data-source-class-name}")
+    @Value("${spring.jta.atomikos.datasource.mysql.xa-data-source-class-name}")
     private String dataSourceClassName;
 
-    @Value("${spring.jta.atomikos.datasource.h2.xa-properties.user}")
+    @Value("${spring.jta.atomikos.datasource.mysql.xa-properties.user}")
     private String user;
 
-    @Value("${spring.jta.atomikos.datasource.h2.xa-properties.password}")
+    @Value("${spring.jta.atomikos.datasource.mysql.xa-properties.password}")
     private String password;
 
-    @Value("${spring.jta.atomikos.datasource.h2.xa-properties.url}")
+    @Value("${spring.jta.atomikos.datasource.mysql.xa-properties.url}")
     private String url;
 
-    @Primary
-    @Bean(name = "h2DataSource")
-    public DataSource h2DataSource() {
+//    @Primary
+    @Bean(name = "mysqlDataSource")
+    public DataSource mysqlDataSource() {
         Properties properties = new Properties();
         properties.setProperty("url", url);
         properties.setProperty("user", user);
@@ -59,10 +59,10 @@ public class H2DataSourceConfig {
         return dataSource;
     }
 
-    @Primary
-    @Bean(name = "h2EntityManagerFactory")
+//    @Primary
+    @Bean(name = "mysqlEntityManagerFactory")
     @DependsOn("multiTxManager")
-    public LocalContainerEntityManagerFactoryBean h2EntityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean mysqlEntityManagerFactory() {
         Properties properties = new Properties();
         properties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
         properties.put("javax.persistence.transactionType", "JTA");
@@ -70,13 +70,13 @@ public class H2DataSourceConfig {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setShowSql(true);
         hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.H2);
+        hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
 
         LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
-        entityManager.setDataSource(h2DataSource());
+        entityManager.setDataSource(mysqlDataSource());
         entityManager.setJpaVendorAdapter(hibernateJpaVendorAdapter);
-        entityManager.setPackagesToScan("com.drimsys.example.db.h2");
-        entityManager.setPersistenceUnitName("h2_write_unit");
+        entityManager.setPackagesToScan("com.drimsys.example.db.mysql");
+        entityManager.setPersistenceUnitName("mysql_write_unit");
         entityManager.setJpaProperties(properties);
         return entityManager;
     }
